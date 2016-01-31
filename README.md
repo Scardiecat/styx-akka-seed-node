@@ -27,3 +27,8 @@ e.g.
  docker run -p 9101:2551 --rm styx-akka-seed-node:0.0.1 --seed 172.31.62.160:9101,172.31.62.160:9102
  docker run -p 9102:2551 --rm styx-akka-seed-node:0.0.1 --seed 172.31.62.160:9101,172.31.62.160:9102
   ```
+
+## Configuration
+
+### Environment variables
+* AS_NAME : ActorSystemName // chose something unique by environment
