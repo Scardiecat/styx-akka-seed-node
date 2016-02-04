@@ -3,7 +3,7 @@ import NativePackagerHelper._
 
 val commonSettings = Seq(
   organization := "org.scardiecat",
-  version := "0.0.2",
+  version := "0.0.3",
   scalaVersion := "2.11.7",
 
   scalacOptions ++= Seq("-unchecked", "-deprecation", "-feature", "-language:existentials", "-language:higherKinds"),
