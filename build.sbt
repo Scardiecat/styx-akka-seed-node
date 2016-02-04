@@ -1,5 +1,6 @@
 import NativePackagerHelper._
-
+enablePlugins(AshScriptPlugin)
+enablePlugins(DockerPlugin)
 
 val commonSettings = Seq(
   organization := "org.scardiecat",
