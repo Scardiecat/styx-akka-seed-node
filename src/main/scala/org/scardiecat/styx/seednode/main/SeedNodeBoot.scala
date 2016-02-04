@@ -2,12 +2,17 @@ package org.scardiecat.styx.seednode.main
 
 
 import akka.actor.ActorSystem
+import akka.cluster.Cluster
 import com.google.inject.{Guice, Injector}
 import com.typesafe.config.{Config, ConfigFactory}
 import org.scardiecat.styx.DockerAkkaUtils
 import org.scardiecat.styx.akkaguice.AkkaModule
 import net.codingwell.scalaguice.InjectorExtensions._
 import org.scardiecat.styx.utils.commandline.CommandlineParser
+
+import scala.concurrent.Await
+import scala.util.Try
+import scala.concurrent.duration._
 
 /**
   * expects role port [seednodes]
@@ -29,5 +34,30 @@ object SeedNodeBoot extends App{
   val injector: Injector = Guice.createInjector(confModule,akkaModule)
 
   val system = injector.instance[ActorSystem]
+  val cluster = Cluster(system)
+  cluster.registerOnMemberRemoved {
+    System.out.println("Terminating actor system : ")
+    // exit JVM when ActorSystem has been terminated
+    system.registerOnTermination(System.exit(0))
+    // shut down ActorSystem
+    system.terminate()
+    // In case ActorSystem shutdown takes longer than 10 seconds,
+    // exit the JVM forcefully anyway.
+    // We must spawn a separate thread to not block current thread,
+    // since that would have blocked the shutdown of the ActorSystem.
+    new Thread {
+      override def run(): Unit = {
+        if (Try(Await.ready(system.whenTerminated, 10.seconds)).isFailure)
+          System.exit(-1)
+      }
+    }.start()
+  }
+
+  Runtime.getRuntime.addShutdownHook(new Thread() {
+    override def run {
+      System.out.println("Inside cluster shutdown hook : " + Thread.currentThread.getName)
+      cluster.leave(cluster.selfAddress)
+    }
+  })
 
 }
