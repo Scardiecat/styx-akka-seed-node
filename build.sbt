@@ -21,7 +21,8 @@ val commonSettings = Seq(
 val dockerSettings = Seq(
   dockerBaseImage := "frolvlad/alpine-oraclejdk8",
   dockerExposedPorts := Seq(2551),
-  maintainer in Docker := "Ralf Mueller <docker@scardiecat.org>"
+  maintainer in Docker := "Ralf Mueller <docker@scardiecat.org>",
+  dockerRepository := Some("magicmoose-docker-registry.bintray.io/scardiecat")
 )
 
 lazy val root = (project in file("."))
