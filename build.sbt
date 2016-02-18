@@ -1,9 +1,6 @@
-import NativePackagerHelper._
-
-
 val commonSettings = Seq(
   organization := "org.scardiecat",
-  version := "0.0.3",
+  version := "0.0.4",
   scalaVersion := "2.11.7",
 
   scalacOptions ++= Seq("-unchecked", "-deprecation", "-feature", "-language:existentials", "-language:higherKinds"),
@@ -24,11 +21,12 @@ val commonSettings = Seq(
 val dockerSettings = Seq(
   dockerBaseImage := "frolvlad/alpine-oraclejdk8",
   dockerExposedPorts := Seq(2551),
-  maintainer in Docker := "Ralf Mueller <docker@scardiecat.org>"
+  maintainer in Docker := "Ralf Mueller <docker@scardiecat.org>",
+  dockerRepository := Some("magicmoose-docker-registry.bintray.io/scardiecat")
 )
 
 lazy val root = (project in file("."))
-  .enablePlugins(BuildInfoPlugin, JavaAppPackaging)
+  .enablePlugins(BuildInfoPlugin, JavaAppPackaging, AshScriptPlugin, DockerPlugin)
   .settings(
     name := """styx-akka-seed-node""",
     libraryDependencies ++= Dependencies.common,
