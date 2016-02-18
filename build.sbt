@@ -1,6 +1,11 @@
 val commonSettings = Seq(
   organization := "org.scardiecat",
-  version := "0.0.4",
+  git.baseVersion := "0.0.6",
+  git.gitTagToVersionNumber := { tag: String =>
+    if(tag matches "[0-9]+\\..*") Some(tag)
+    else None
+  },
+  git.useGitDescribe := true,
   scalaVersion := "2.11.7",
 
   scalacOptions ++= Seq("-unchecked", "-deprecation", "-feature", "-language:existentials", "-language:higherKinds"),
@@ -26,7 +31,7 @@ val dockerSettings = Seq(
 )
 
 lazy val root = (project in file("."))
-  .enablePlugins(BuildInfoPlugin, JavaAppPackaging, AshScriptPlugin, DockerPlugin)
+  .enablePlugins(BuildInfoPlugin, JavaAppPackaging, AshScriptPlugin, DockerPlugin, GitVersioning)
   .settings(
     name := """styx-akka-seed-node""",
     libraryDependencies ++= Dependencies.common,
