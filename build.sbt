@@ -1,10 +1,6 @@
-import NativePackagerHelper._
-enablePlugins(AshScriptPlugin)
-enablePlugins(DockerPlugin)
-
 val commonSettings = Seq(
   organization := "org.scardiecat",
-  version := "0.0.3",
+  version := "0.0.4",
   scalaVersion := "2.11.7",
 
   scalacOptions ++= Seq("-unchecked", "-deprecation", "-feature", "-language:existentials", "-language:higherKinds"),
@@ -29,7 +25,7 @@ val dockerSettings = Seq(
 )
 
 lazy val root = (project in file("."))
-  .enablePlugins(BuildInfoPlugin, JavaAppPackaging)
+  .enablePlugins(BuildInfoPlugin, JavaAppPackaging, AshScriptPlugin, DockerPlugin)
   .settings(
     name := """styx-akka-seed-node""",
     libraryDependencies ++= Dependencies.common,
