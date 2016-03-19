@@ -1,10 +1,11 @@
 package org.scardiecat.styx.seednode.main
 
 
-import akka.actor.ActorSystem
+import akka.actor.{Props, ActorSystem}
 import akka.cluster.Cluster
 import com.google.inject.{Guice, Injector}
 import com.typesafe.config.{Config, ConfigFactory}
+import kamon.Kamon
 import org.scardiecat.styx.DockerAkkaUtils
 import org.scardiecat.styx.akkaguice.AkkaModule
 import net.codingwell.scalaguice.InjectorExtensions._
@@ -13,6 +14,8 @@ import org.scardiecat.styx.utils.commandline.CommandlineParser
 import scala.concurrent.Await
 import scala.util.Try
 import scala.concurrent.duration._
+
+import org.scardiecat.styx.seednode.example.{GenerateMore, Generator}
 
 /**
   * expects role port [seednodes]
@@ -29,11 +32,15 @@ object SeedNodeBoot extends App{
 
   //Startup ActorSystem
   val confModule = new ConfigModule(config, commandline.actorSystemName)
+
+  Kamon.start()
   val akkaModule = new AkkaModule()
 
   val injector: Injector = Guice.createInjector(confModule,akkaModule)
 
   val system = injector.instance[ActorSystem]
+
+  val generator = system.actorOf(Props[Generator], name = "Generator")
   val cluster = Cluster(system)
   cluster.registerOnMemberRemoved {
     System.out.println("Terminating actor system : ")
@@ -60,4 +67,5 @@ object SeedNodeBoot extends App{
     }
   })
 
+  generator ! GenerateMore(20000)
 }

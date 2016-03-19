@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+EC2_USER=ec2-user
+CURRENT_EC2_IP=ec2-52-87-255-141.compute-1.amazonaws.com
+CURRENT_EC2_PEM=~/.ssh/heronet.pem
+CURRENT_PROJECT_NAME=styx-akka-seed-node
+CURRENT_EC2_INSTANCE=$EC2_USER@$CURRENT_EC2_IP

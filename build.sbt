@@ -7,7 +7,7 @@ val commonSettings = Seq(
   },
   git.useGitDescribe := true,
   scalaVersion := "2.11.7",
-
+cd se
   scalacOptions ++= Seq("-unchecked", "-deprecation", "-feature", "-language:existentials", "-language:higherKinds"),
 
   // build info
@@ -20,7 +20,8 @@ val commonSettings = Seq(
   publishMavenStyle := true,
   bintrayReleaseOnPublish in ThisBuild := true,
   bintrayPackageLabels := Seq("styx", "scala", "Akka"),
-  licenses += ("MIT", url("http://opensource.org/licenses/MIT"))
+  licenses += ("MIT", url("http://opensource.org/licenses/MIT")),
+  resolvers += "kamon" at "http://snapshots.kamon.io/"
 )
 
 val dockerSettings = Seq(
@@ -34,7 +35,7 @@ lazy val root = (project in file("."))
   .enablePlugins(BuildInfoPlugin, JavaAppPackaging, AshScriptPlugin, DockerPlugin, GitVersioning)
   .settings(
     name := """styx-akka-seed-node""",
-    libraryDependencies ++= Dependencies.common,
     commonSettings,
+    libraryDependencies ++= Dependencies.common,
     dockerSettings
   )

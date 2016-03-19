@@ -1,0 +1,9 @@
+seed1:
+  build: stage/.
+  ports:
+    - "2551:2551"
+  environment:
+    CLUSTER_SEED_NODES: '${IP}:2551'
+    AS_NAME: 'ActorSystemName'
+    JAVA_OPTS: '-XX:+PrintFlagsFinal'
+
