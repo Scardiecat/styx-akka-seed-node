@@ -67,5 +67,5 @@ object SeedNodeBoot extends App{
     }
   })
 
-  generator ! GenerateMore(20000)
+  generator ! GenerateMore(20)
 }

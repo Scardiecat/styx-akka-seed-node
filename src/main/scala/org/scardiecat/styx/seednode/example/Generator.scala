@@ -14,7 +14,7 @@ class Generator() extends Actor  with ActorLogging{
   def receive = {
     case message:GenerateMore => {
       for( a <- 1 until message.number){
-        consumer ! ProcessThis(2)
+        consumer ! ProcessThis(2000)
       }
       consumer ! SheduleMode(message.number)
       //log.info("Generated messages ")

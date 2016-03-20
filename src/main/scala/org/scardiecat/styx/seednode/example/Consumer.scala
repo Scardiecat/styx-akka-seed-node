@@ -10,7 +10,7 @@ object Consumer {
 class Consumer() extends Actor with ActorLogging{
   def receive = {
     case message:ProcessThis => {
-      //Thread.sleep(message.number)
+      Thread.sleep(message.number)
       //log.info("Processed message ")
     }
     case message:SheduleMode => {

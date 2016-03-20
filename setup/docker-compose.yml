@@ -2,8 +2,10 @@ seed1:
   build: stage/.
   ports:
     - "2551:2551"
+    - "9999:9999"
   environment:
     CLUSTER_SEED_NODES: '${IP}:2551'
     AS_NAME: 'ActorSystemName'
-    JAVA_OPTS: '-XX:+PrintFlagsFinal'
+    JAVA_OPTS: '-XX:+PrintFlagsFinal -XX:+PrintCommandLineFlags -Dcom.sun.management.jmxremote.port=9999 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false'
+
 
