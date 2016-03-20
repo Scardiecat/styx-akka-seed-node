@@ -4,8 +4,26 @@ seed1:
     - "2551:2551"
     - "9999:9999"
   environment:
-    CLUSTER_SEED_NODES: '${IP}:2551'
+    CLUSTER_SEED_NODES: '${IP}:2551,${IP}:2552,${IP}:2553'
     AS_NAME: 'ActorSystemName'
-    JAVA_OPTS: '-XX:+PrintFlagsFinal -XX:+PrintCommandLineFlags -Dcom.sun.management.jmxremote.port=9999 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false'
+    JAVA_OPTS: '-Xmx256m -XX:+PrintFlagsFinal -XX:+PrintCommandLineFlags -Dcom.sun.management.jmxremote.port=9999 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false'
 
+seed2:
+  build: stage/.
+  ports:
+    - "2552:2551"
+  environment:
+    CLUSTER_SEED_NODES: '${IP}:2551,${IP}:2552,${IP}:2553'
+    AS_NAME: 'ActorSystemName'
+    JAVA_OPTS: '-Xmx256m -XX:+PrintFlagsFinal -XX:+PrintCommandLineFlags -Dcom.sun.management.jmxremote.port=9999 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false'
+
+
+seed2:
+  build: stage/.
+  ports:
+    - "2553:2551"
+  environment:
+    CLUSTER_SEED_NODES: '${IP}:2551,${IP}:2552,${IP}:2553'
+    AS_NAME: 'ActorSystemName'
+    JAVA_OPTS: '-Xmx256m -XX:+PrintFlagsFinal -XX:+PrintCommandLineFlags -Dcom.sun.management.jmxremote.port=9999 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false'
 
