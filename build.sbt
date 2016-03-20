@@ -21,19 +21,18 @@ val commonSettings = Seq(
   bintrayPackageLabels := Seq("styx", "scala", "Akka"),
   licenses += ("MIT", url("http://opensource.org/licenses/MIT")),
   resolvers += "kamon" at "http://snapshots.kamon.io/",
-
-  javaOptions in run += "-XX:+PrintFlagsFinal -Dcom.sun.management.jmxremote.port=9999 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false"
-)
+  fork in run := true
+  )
 
 val dockerSettings = Seq(
+  dockerBaseImage := "anapsix/alpine-java:jdk",
   dockerExposedPorts := Seq(2551),
   maintainer in Docker := "Ralf Mueller <docker@scardiecat.org>",
-  javaOptions in Docker += "-XX:+PrintFlagsFinal -Dcom.sun.management.jmxremote.port=9999 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false" ,
   dockerRepository := Some("magicmoose-docker-registry.bintray.io/scardiecat")
 )
 
 lazy val root = (project in file("."))
-  .enablePlugins(BuildInfoPlugin, JavaAppPackaging, AshScriptPlugin, DockerPlugin, GitVersioning)
+  .enablePlugins(BuildInfoPlugin, JavaAppPackaging, DockerPlugin, GitVersioning)
   .settings(
     name := """styx-akka-seed-node""",
     commonSettings,
